@@ -1,0 +1,16 @@
+<h1>Support tickets</h1>
+<div class="card table-wrap">
+  <% if (tickets.length === 0) { %><p class="muted">No tickets.</p><% } else { %>
+  <table>
+    <tr><th>ID</th><th>User</th><th>Subject</th><th>Status</th><th>Updated</th></tr>
+    <% tickets.forEach(t => { %>
+      <tr>
+        <td>#<%= t.id %></td><td><%= t.username %></td>
+        <td><a href="/admin/tickets/<%= t.id %>"><%= t.subject %></a></td>
+        <td><span class="badge badge-<%= t.status %>"><%= t.status %></span></td>
+        <td><%= t.updated_at %></td>
+      </tr>
+    <% }) %>
+  </table>
+  <% } %>
+</div>

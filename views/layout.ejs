@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= typeof title !== 'undefined' ? title + ' · ' : '' %>SMM Panel</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">⚡ SMM Panel</a>
+  <nav>
+    <% if (user) { %>
+      <% if (isAdmin) { %>
+        <a href="/admin">Admin</a>
+        <a href="/admin/settings">Provider</a>
+        <a href="/admin/services">Services</a>
+        <a href="/admin/orders">Orders</a>
+        <a href="/admin/funds">Funds</a>
+        <a href="/admin/tickets">Tickets</a>
+        <a href="/admin/users">Users</a>
+      <% } else { %>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/services">Services</a>
+        <a href="/order/new">New Order</a>
+        <a href="/orders">Orders</a>
+        <a href="/funds">Add Funds</a>
+        <a href="/tickets">Support</a>
+      <% } %>
+      <span class="balance-pill">$<%= Number(user.balance).toFixed(2) %></span>
+      <span class="hello"><%= user.username %><%= isAdmin ? ' (admin)' : '' %></span>
+      <form action="/logout" method="POST" class="inline"><button class="btn btn-sm" type="submit">Logout</button></form>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/signup" class="btn btn-sm">Sign up</a>
+    <% } %>
+  </nav>
+</header>
+
+<main class="container">
+  <% if (flash) { %>
+    <div class="alert alert-<%= flash.type %>"><%= flash.text %></div>
+  <% } %>
+  <%- body %>
+</main>
+
+<footer class="footer">SMM Panel · self-hosted</footer>
+</body>
+</html>

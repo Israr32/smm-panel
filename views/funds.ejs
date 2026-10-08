@@ -1,0 +1,51 @@
+<h1>Add funds</h1>
+<div class="grid grid-2">
+  <div class="card">
+    <h2>Current balance: <span style="color:var(--green)">$<%= balance.toFixed(2) %></span></h2>
+    <p class="muted">Submit a deposit request below. The admin reviews and approves it, then your balance is credited.</p>
+    <form action="/funds/request" method="POST">
+      <div class="form-group">
+        <label>Amount (USD)</label>
+        <input type="number" name="amount" step="0.01" min="1" required>
+      </div>
+      <div class="form-group">
+        <label>Payment method</label>
+        <input type="text" name="method" placeholder="e.g. bank transfer, crypto…" maxlength="60">
+      </div>
+      <div class="form-group">
+        <label>Note (optional)</label>
+        <textarea name="note" maxlength="300" placeholder="Transaction ID or details…"></textarea>
+      </div>
+      <button class="btn" type="submit">Submit request</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>My requests</h2>
+    <% if (requests.length === 0) { %><p class="muted">No requests yet.</p><% } else { %>
+    <table>
+      <tr><th>ID</th><th>Amount</th><th>Method</th><th>Status</th><th>Date</th></tr>
+      <% requests.forEach(r => { %>
+        <tr>
+          <td>#<%= r.id %></td><td>$<%= r.amount.toFixed(2) %></td><td><%= r.method || '—' %></td>
+          <td><span class="badge badge-<%= r.status %>"><%= r.status %></span></td><td><%= r.created_at %></td>
+        </tr>
+      <% }) %>
+    </table>
+    <% } %>
+  </div>
+</div>
+<h2>Transaction history</h2>
+<div class="card table-wrap">
+  <% if (transactions.length === 0) { %><p class="muted">No transactions yet.</p><% } else { %>
+  <table>
+    <tr><th>ID</th><th>Type</th><th>Amount</th><th>Balance after</th><th>Note</th><th>Date</th></tr>
+    <% transactions.forEach(t => { %>
+      <tr>
+        <td>#<%= t.id %></td><td><%= t.type %></td>
+        <td style="color:<%= t.amount >= 0 ? 'var(--green)' : 'var(--red)' %>"><%= t.amount >= 0 ? '+' : '' %>$<%= t.amount.toFixed(2) %></td>
+        <td>$<%= t.balance_after.toFixed(2) %></td><td><%= t.note || '—' %></td><td><%= t.created_at %></td>
+      </tr>
+    <% }) %>
+  </table>
+  <% } %>
+</div>

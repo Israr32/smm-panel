@@ -1,0 +1,22 @@
+<h1>Fund requests</h1>
+<div class="card table-wrap">
+  <% if (requests.length === 0) { %><p class="muted">No fund requests.</p><% } else { %>
+  <table>
+    <tr><th>ID</th><th>User</th><th>Amount</th><th>Method</th><th>Note</th><th>Status</th><th>Date</th><th></th></tr>
+    <% requests.forEach(r => { %>
+      <tr>
+        <td>#<%= r.id %></td><td><%= r.username %></td><td>$<%= r.amount.toFixed(2) %></td>
+        <td><%= r.method || '—' %></td><td><%= r.note || '—' %></td>
+        <td><span class="badge badge-<%= r.status %>"><%= r.status %></span></td>
+        <td><%= r.created_at %></td>
+        <td style="white-space:nowrap">
+          <% if (r.status === 'pending') { %>
+            <form action="/admin/funds/<%= r.id %>/approve" method="POST" class="inline"><button class="btn btn-sm btn-green" type="submit">Approve</button></form>
+            <form action="/admin/funds/<%= r.id %>/reject" method="POST" class="inline"><button class="btn btn-sm btn-danger" type="submit">Reject</button></form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+  <% } %>
+</div>

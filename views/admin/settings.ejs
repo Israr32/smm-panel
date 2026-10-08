@@ -1,0 +1,25 @@
+<h1>Provider settings</h1>
+<div class="card" style="max-width:640px">
+  <p class="muted">Standard v2 wholesale API (Peakerr, JustAnotherPanel, FollowersMore, …). Only the URL and key change between providers. The API key is <strong>write-only</strong> — it is never displayed back.</p>
+  <form action="/admin/settings" method="POST" style="margin-top:12px">
+    <div class="form-group">
+      <label>API URL</label>
+      <input type="url" name="api_url" value="<%= apiUrl %>" placeholder="https://provider.com/api/v2" required>
+    </div>
+    <div class="form-group">
+      <label>API key <%= keySet ? '(already set — leave blank to keep)' : '' %></label>
+      <input type="password" name="api_key" placeholder="<%= keySet ? '•••••••• (hidden)' : 'paste provider API key' %>" autocomplete="off">
+    </div>
+    <button class="btn" type="submit">Save settings</button>
+  </form>
+</div>
+<div class="card">
+  <h2>Wholesale catalog</h2>
+  <p class="muted"><%= syncedCount %> services synced<%= syncedAt ? ' · last sync: ' + syncedAt : '' %></p>
+  <div class="toolbar" style="margin-top:12px">
+    <form action="/admin/provider/sync-services" method="POST" class="inline"><button class="btn" type="submit">🔄 Sync services (action=services)</button></form>
+    <form action="/admin/provider/check-balance" method="POST" class="inline"><button class="btn btn-ghost" type="submit">💰 Check balance (action=balance)</button></form>
+    <form action="/admin/provider/sync-status" method="POST" class="inline"><button class="btn btn-ghost" type="submit">📡 Sync order statuses</button></form>
+  </div>
+  <p class="muted">Order statuses also sync automatically in the background (every <code>SYNC_INTERVAL_MINUTES</code>, default 10).</p>
+</div>

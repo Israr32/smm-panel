@@ -1,0 +1,19 @@
+<h1>Services</h1>
+<p class="muted">Your balance: <strong style="color:var(--green)">$<%= typeof balance !== 'undefined' ? balance.toFixed(2) : '' %></strong></p>
+<div class="card table-wrap">
+  <table>
+    <tr><th>ID</th><th>Service</th><th>Platform</th><th>Rate / 1k</th><th>Min</th><th>Max</th><th></th></tr>
+    <% services.forEach(s => { %>
+      <tr>
+        <td><%= s.id %></td>
+        <td><strong><%= s.name %></strong><br><span class="muted" style="font-size:0.8rem"><%= s.type %></span></td>
+        <td><%= s.platform %></td>
+        <td>$<%= s.rate.toFixed(2) %></td>
+        <td><%= s.min_qty %></td>
+        <td><%= s.max_qty %></td>
+        <td><a href="/order/new?service=<%= s.id %>" class="btn btn-sm">Order</a></td>
+      </tr>
+    <% }) %>
+  </table>
+  <% if (services.length === 0) { %><p class="muted">No services available yet.</p><% } %>
+</div>

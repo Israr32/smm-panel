@@ -1,0 +1,22 @@
+<h1>Admin dashboard</h1>
+<div class="grid grid-3">
+  <div class="stat"><div class="label">Users</div><div class="value"><%= users %></div></div>
+  <div class="stat"><div class="label">Orders</div><div class="value"><%= orders.c %></div></div>
+  <div class="stat"><div class="label">Revenue</div><div class="value">$<%= orders.revenue.toFixed(2) %></div></div>
+  <div class="stat"><div class="label">Pending fund requests</div><div class="value"><%= pendingFunds %></div></div>
+  <div class="stat"><div class="label">Open tickets</div><div class="value"><%= openTickets %></div></div>
+  <div class="stat"><div class="label">Synced provider services</div><div class="value"><%= syncedServices %></div></div>
+</div>
+<h2>Provider status</h2>
+<div class="card">
+  <% if (providerConfigured) { %>
+    <p>✅ Connected to <code><%= providerUrl %></code></p>
+    <div class="toolbar" style="margin-top:12px">
+      <form action="/admin/provider/sync-services" method="POST" class="inline"><button class="btn btn-sm" type="submit">Sync services</button></form>
+      <form action="/admin/provider/check-balance" method="POST" class="inline"><button class="btn btn-sm btn-ghost" type="submit">Check balance</button></form>
+      <form action="/admin/provider/sync-status" method="POST" class="inline"><button class="btn btn-sm btn-ghost" type="submit">Sync order statuses</button></form>
+    </div>
+  <% } else { %>
+    <p class="muted">⚠️ No wholesale provider connected. <a href="/admin/settings">Configure it here</a>.</p>
+  <% } %>
+</div>

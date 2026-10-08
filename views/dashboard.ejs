@@ -1,0 +1,34 @@
+<h1>Dashboard</h1>
+<div class="grid grid-3">
+  <div class="stat"><div class="label">Balance</div><div class="value" style="color:var(--green)">$<%= balance.toFixed(2) %></div></div>
+  <div class="stat"><div class="label">Total orders</div><div class="value"><%= stats.total %></div></div>
+  <div class="stat"><div class="label">Active orders</div><div class="value"><%= stats.active %></div></div>
+  <div class="stat"><div class="label">Completed</div><div class="value"><%= stats.completed %></div></div>
+  <div class="stat"><div class="label">Total spent</div><div class="value">$<%= spent.toFixed(2) %></div></div>
+</div>
+
+<div class="toolbar" style="margin-top:20px">
+  <a href="/order/new" class="btn">+ New order</a>
+  <a href="/funds" class="btn btn-ghost">Add funds</a>
+</div>
+
+<h2>Recent orders</h2>
+<div class="card table-wrap">
+  <% if (recent.length === 0) { %>
+    <p class="muted">No orders yet. <a href="/order/new">Place your first order</a>.</p>
+  <% } else { %>
+  <table>
+    <tr><th>ID</th><th>Service</th><th>Qty</th><th>Charge</th><th>Status</th><th>Date</th></tr>
+    <% recent.forEach(o => { %>
+      <tr>
+        <td>#<%= o.id %></td>
+        <td><%= o.service_name %></td>
+        <td><%= o.quantity %></td>
+        <td>$<%= o.charge.toFixed(2) %></td>
+        <td><span class="badge badge-<%= o.status %>"><%= o.status %></span></td>
+        <td><%= o.created_at %></td>
+      </tr>
+    <% }) %>
+  </table>
+  <% } %>
+</div>

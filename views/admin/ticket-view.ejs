@@ -1,0 +1,22 @@
+<h1>Ticket #<%= ticket.id %>: <%= ticket.subject %></h1>
+<p>From <strong><%= ticket.username %></strong> · <span class="badge badge-<%= ticket.status %>"><%= ticket.status %></span></p>
+<div class="card" style="margin-top:16px">
+  <% messages.forEach(m => { %>
+    <div class="ticket-msg <%= m.is_admin ? 'admin-msg' : '' %>">
+      <div class="ticket-meta"><strong><%= m.username %></strong><%= m.is_admin ? ' (support)' : '' %> · <%= m.created_at %></div>
+      <div><%= m.message %></div>
+    </div>
+  <% }) %>
+</div>
+<% if (ticket.status !== 'closed') { %>
+<div class="card">
+  <form action="/admin/tickets/<%= ticket.id %>/reply" method="POST">
+    <div class="form-group"><label>Reply as support</label><textarea name="message" required></textarea></div>
+    <button class="btn" type="submit">Send reply</button>
+  </form>
+  <form action="/admin/tickets/<%= ticket.id %>/close" method="POST" style="margin-top:10px">
+    <button class="btn btn-ghost btn-sm" type="submit">Close ticket</button>
+  </form>
+</div>
+<% } %>
+<p><a href="/admin/tickets">← Back to tickets</a></p>

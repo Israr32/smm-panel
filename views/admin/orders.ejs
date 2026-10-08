@@ -1,0 +1,46 @@
+<h1>All orders</h1>
+<div class="toolbar">
+  <form action="/admin/provider/sync-status" method="POST" class="inline">
+    <button class="btn btn-sm" type="submit">📡 Sync statuses from provider</button>
+  </form>
+</div>
+<div class="card table-wrap">
+  <% if (orders.length === 0) { %><p class="muted">No orders yet.</p><% } else { %>
+  <table>
+    <tr><th>ID</th><th>User</th><th>Service</th><th>Qty</th><th>Charge</th><th>Status</th><th>Provider ID</th><th>Actions</th></tr>
+    <% orders.forEach(o => { %>
+      <tr>
+        <td>#<%= o.id %></td>
+        <td><%= o.username %></td>
+        <td><%= o.service_name %></td>
+        <td><%= o.quantity %></td>
+        <td>$<%= o.charge.toFixed(2) %></td>
+        <td>
+          <span class="badge badge-<%= o.status %>"><%= o.status %></span>
+          <% if (o.last_error) { %><div class="muted" style="font-size:0.75rem; max-width:180px"><%= o.last_error %></div><% } %>
+        </td>
+        <td><%= o.provider_order_id || '—' %></td>
+        <td style="white-space:nowrap">
+          <% if (!o.provider_order_id) { %>
+            <form action="/admin/orders/<%= o.id %>/retry" method="POST" class="inline">
+              <button class="btn btn-sm" type="submit" title="Forward to provider (action=add)">Retry fwd</button>
+            </form>
+          <% } else { %>
+            <form action="/admin/orders/<%= o.id %>/refill" method="POST" class="inline">
+              <button class="btn btn-sm btn-ghost" type="submit" title="Request refill (action=refill)">Refill</button>
+            </form>
+          <% } %>
+          <form action="/admin/orders/<%= o.id %>/status" method="POST" class="inline">
+            <select name="status" onchange="this.form.submit()" style="width:auto; padding:4px">
+              <option value="">set…</option>
+              <option value="completed">completed</option>
+              <option value="partial">partial</option>
+              <option value="canceled">canceled</option>
+            </select>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+  <% } %>
+</div>

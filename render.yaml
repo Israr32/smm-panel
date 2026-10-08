@@ -1,0 +1,22 @@
+# render.yaml — Render Blueprint for the SMM Panel (free tier).
+# Push this repo to GitHub, then in Render: New → Blueprint → select the repo.
+# Render reads this file and creates the web service automatically.
+services:
+  - type: web
+    name: smm-panel
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true # long random session secret, auto-generated
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        generateValue: true # random initial password — CHANGE IT after first login!
+      - key: SYNC_INTERVAL_MINUTES
+        value: 10

@@ -1,0 +1,19 @@
+<div class="auth-box card">
+  <h1>Sign up</h1>
+  <form action="/signup" method="POST">
+    <div class="form-group">
+      <label>Username (3–32 chars)</label>
+      <input type="text" name="username" required minlength="3" maxlength="32" autocomplete="username">
+    </div>
+    <div class="form-group">
+      <label>Email (optional)</label>
+      <input type="email" name="email" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label>Password (min 6 chars)</label>
+      <input type="password" name="password" required minlength="6" autocomplete="new-password">
+    </div>
+    <button class="btn" type="submit">Create account</button>
+  </form>
+  <p class="muted" style="margin-top:14px">Already have an account? <a href="/login">Login</a></p>
+</div>

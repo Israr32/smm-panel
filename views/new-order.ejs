@@ -1,0 +1,48 @@
+<h1>New order</h1>
+<p class="muted">Balance: <strong style="color:var(--green)">$<%= balance.toFixed(2) %></strong></p>
+<div class="card" style="max-width:640px">
+  <form action="/order/new" method="POST" id="orderForm">
+    <div class="form-group">
+      <label>Service</label>
+      <select name="service_id" id="serviceSelect" required>
+        <% services.forEach(s => { %>
+          <option value="<%= s.id %>"
+            data-rate="<%= s.rate %>" data-min="<%= s.min_qty %>" data-max="<%= s.max_qty %>"
+            <%= preselected === s.id ? 'selected' : '' %>>
+            #<%= s.id %> · <%= s.name %> — $<%= s.rate.toFixed(2) %>/1k
+          </option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Link</label>
+      <input type="url" name="link" placeholder="https://…" required>
+    </div>
+    <div class="form-group">
+      <label>Quantity <span class="muted" id="qtyHint"></span></label>
+      <input type="number" name="quantity" id="qtyInput" min="1" required>
+    </div>
+    <div class="form-group">
+      <label>Estimated charge</label>
+      <div style="font-size:1.4rem; font-weight:800; color:var(--green)" id="chargePreview">$0.00</div>
+    </div>
+    <button class="btn" type="submit">Place order</button>
+  </form>
+</div>
+<script>
+const sel = document.getElementById('serviceSelect');
+const qty = document.getElementById('qtyInput');
+const hint = document.getElementById('qtyHint');
+const preview = document.getElementById('chargePreview');
+function update() {
+  const opt = sel.options[sel.selectedIndex];
+  const rate = parseFloat(opt.dataset.rate), min = +opt.dataset.min, max = +opt.dataset.max;
+  hint.textContent = `(min ${min} – max ${max})`;
+  qty.min = min; qty.max = max;
+  const q = parseInt(qty.value, 10) || 0;
+  preview.textContent = '$' + (rate * q / 1000).toFixed(2);
+}
+sel.addEventListener('change', update);
+qty.addEventListener('input', update);
+update();
+</script>

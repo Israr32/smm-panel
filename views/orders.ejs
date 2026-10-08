@@ -1,0 +1,21 @@
+<h1>My orders</h1>
+<div class="card table-wrap">
+  <% if (orders.length === 0) { %>
+    <p class="muted">No orders yet. <a href="/order/new">Place one</a>.</p>
+  <% } else { %>
+  <table>
+    <tr><th>ID</th><th>Service</th><th>Link</th><th>Qty</th><th>Charge</th><th>Status</th><th>Date</th></tr>
+    <% orders.forEach(o => { %>
+      <tr>
+        <td>#<%= o.id %></td>
+        <td><%= o.service_name %></td>
+        <td><a href="<%= o.link %>" target="_blank" rel="noopener">link</a></td>
+        <td><%= o.quantity %></td>
+        <td>$<%= o.charge.toFixed(2) %></td>
+        <td><span class="badge badge-<%= o.status %>"><%= o.status %></span></td>
+        <td><%= o.created_at %></td>
+      </tr>
+    <% }) %>
+  </table>
+  <% } %>
+</div>

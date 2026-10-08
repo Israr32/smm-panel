@@ -1,0 +1,33 @@
+<h1>Support tickets</h1>
+<div class="grid grid-2">
+  <div class="card">
+    <h2>Open a ticket</h2>
+    <form action="/tickets" method="POST">
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" name="subject" maxlength="120" required>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea name="message" required></textarea>
+      </div>
+      <button class="btn" type="submit">Create ticket</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>My tickets</h2>
+    <% if (tickets.length === 0) { %><p class="muted">No tickets yet.</p><% } else { %>
+    <table>
+      <tr><th>ID</th><th>Subject</th><th>Status</th><th>Updated</th></tr>
+      <% tickets.forEach(t => { %>
+        <tr>
+          <td>#<%= t.id %></td>
+          <td><a href="/tickets/<%= t.id %>"><%= t.subject %></a></td>
+          <td><span class="badge badge-<%= t.status %>"><%= t.status %></span></td>
+          <td><%= t.updated_at %></td>
+        </tr>
+      <% }) %>
+    </table>
+    <% } %>
+  </div>
+</div>
